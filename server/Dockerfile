@@ -15,11 +15,14 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy project
 COPY . .
 
-# Create directory for static files
-RUN mkdir -p staticfiles
+# Create directories for static files
+RUN mkdir -p /app/static /app/staticfiles && chmod -R 755 /app/static /app/staticfiles
+
+# Make entrypoint executable
+RUN chmod +x entrypoint.sh
 
 # Expose port
-EXPOSE 8000
+EXPOSE 5000
 
-# Start server
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+# Run entrypoint script
+ENTRYPOINT ["./entrypoint.sh"]
